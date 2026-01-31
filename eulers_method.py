@@ -1,6 +1,6 @@
 # Python program to find approximation of an ordinary differential equation using Euler's Method.
 
-# lets right down some basics to what the method needs in order to work
+# lets write down some basics to what the method needs in order to work
 
 # calculate the integral curve at point x0, y0 to y'= f(x, y). This approximated line will have slope f(x0, y0).
 
