@@ -24,9 +24,9 @@ class Point:
 # IV = Point(1, 0)
 
 dydx = lambda Point : Point.xn * 2
-IV = Point(0,0)
+IV = Point(-4,16)
 
-domain = (IV.xn, IV.xn+6) # arbitrary
+domain = (IV.xn, IV.xn+8) # arbitrary
 
 h = 0.1 # this is step size
 
@@ -41,10 +41,19 @@ def solve(dydx, currPoint: Point, h: float) -> None:
 
     # return currPoint
 
+
+def plotPoint(point: Point) -> None:
+    plt.scatter(point.xn, point.yn, marker='o', s = 5, color = 'k')
+
+
+def connectPoints(point1: Point, point2: Point) -> None:
+    plt.plot([point1.xn, point2.xn], [point1.yn, point2.yn], color = 'k')
+
+
 def main():
     plt.ion()
     plt.figure(figsize = (8,6))
-    plt.xlim(0, 10)
+    plt.xlim(-10, 10)
     plt.ylim(0, 10)
     plt.title("Euler's Method Solver for ODEs")
     plt.grid(True)
@@ -54,17 +63,26 @@ def main():
     plt.draw()
     plt.pause(1)
 
-    currPoint = IV
+    currPoint = copy.copy(IV)
+    prevPoint = copy.deepcopy(currPoint)
     
     while currPoint.xn <= domain[1]:
-        prevPoint = currPoint
         solve(dydx, currPoint, h)
-        plt.scatter(currPoint.xn, currPoint.yn, marker='o', s = 5, color = 'k')
+        plotPoint(currPoint)
+        connectPoints(prevPoint, currPoint)
         plt.draw()
+
+        # print(f"{currPoint.xn}, {currPoint.yn}")
+        # print(f"{prevPoint.xn}, {prevPoint.yn}")
+
         plt.pause(0.1)
+        prevPoint.__dict__.update(vars(currPoint))
 
     plt.ioff()
     plt.show()
+    # print(f"{IV.xn}, {IV.yn}")
+    # print(f"{currPoint.xn}, {currPoint.yn}")
+    # print(f"{prevPoint.xn}, {prevPoint.yn}")
 
 if __name__ == "__main__":
     main()
